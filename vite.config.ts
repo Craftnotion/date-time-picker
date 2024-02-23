@@ -23,9 +23,9 @@ export default defineConfig((configEnv) => ({
   build: {
     lib: {
       entry: resolve('src', 'index.tsx'),
-      name: 'react-markdown-editor',
+      name: 'date-time-picker',
       formats: ['es', 'umd'],
-      fileName: (format) => `react-markdown-editor.${format}.js`,
+      fileName: (format) => `date-time-picker.${format}.js`,
     },
     assetsDir: "src/assets",
     rollupOptions: {
