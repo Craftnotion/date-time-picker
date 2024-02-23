@@ -3,8 +3,8 @@
  */
 import chalk from 'chalk'
 const msgPath = process.env.HUSKY_GIT_PARAMS
+console.log("DATA", msgPath, process.env.HUSKY_GIT_PARAMS);
 import fs from 'fs'
-console.log(msgPath);
 const msg = fs.readFileSync(msgPath, 'utf-8').trim()
 
 const commitRE = /^(revert: )?(feat|improvement|fix|merge|docs|style|refactor|perf|test|workflow|ci|chore|types|build)(\(.+\))?: .{1,50}/
