@@ -1,17 +1,71 @@
 {
-  "name": "date-time-picker",
-  "private": true,
+  "name": "@craftnotion/date-time-picker",
+  "author": "hsharma1996,craftnotion",
+  "description": "A date time picker component for React",
+  "repository": "git://github.com/Craftnotion/date-time-picker.git",
+  "main": "./dist/date-time-picker.cjs",
+  "module": "./dist/date-time-picker.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/date-time-picker.js",
+      "require": "./dist/date-time-picker.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/index.d.ts": "./dist/index.d.ts",
+    "./dist/style.css": "./dist/style.css"
+  },
+  "files": [
+    "./dist/date-time-picker.js",
+    "./dist/date-time-picker.cjs",
+    "./dist/index.d.ts",
+    "./dist/components",
+    "./dist/types",
+    "./dist/style.css"
+  ],
+  "keywords": [
+    "react",
+    "date",
+    "time",
+    "picker",
+    "datetime",
+    "calendar",
+    "input",
+    "component"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "private": false,
   "version": "0.0.0",
   "type": "module",
+  "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
     "init-lint": "eslint --init",
+    "prebuild": "rimraf dist && yarn format && yarn lint && yarn tsc",
+    "build": "vite build",
+    "build-js": "yarn build-js-esm && yarn build-js-cjs && yarn build-js-cjs-package && yarn build-js-cjs-replace",
+    "build-js-esm": "tsc --project tsconfig.build.json --outDir dist/esm",
+    "build-js-cjs": "tsc --project tsconfig.build.json --outDir dist/cjs --module commonjs --moduleResolution node --verbatimModuleSyntax false",
+    "build-js-cjs-package": "echo '{\n  \"type\": \"commonjs\"\n}' > dist/cjs/package.json",
+    "build-js-cjs-replace": "replace-in-files --string='/dist/esm/'  --replacement='/dist/cjs/' dist/cjs/**/*",
+    "clean": "rimraf dist",
+    "copy-styles": "cpy 'src/**/*.css' dist",
+    "prepack": "yarn clean && yarn build",
+    "prettier": "prettier --check . --cache",
+    "test": "yarn lint && yarn tsc && yarn prettier && yarn unit",
+    "tsc": "tsc",
     "preview": "vite preview",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "eslint --fix 'src/**/*.{jsx,ts,tsx}'",
     "format": "prettier --write src//**/*.{ts,tsx,scss} --config ./.prettierrc",
-    "prepare": "husky"
+    "prepare": "husky",
+    "sync-labels": "github-label-sync --labels ./node_modules/@adonisjs/mrm-preset/gh-labels.json Craftnotion/date-time-picker"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "husky": {
     "hooks": {
@@ -24,11 +78,15 @@
       "yarn  format"
     ]
   },
+  "eslintIgnore": [
+    "dist"
+  ],
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@testing-library/react": "^14.2.1",
     "@types/node": "^20.11.20",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
@@ -37,6 +95,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "chalk": "^4.1.2",
     "commitizen": "^4.3.0",
+    "cpy-cli": "^5.0.0",
     "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -45,6 +104,8 @@
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "react-hooks": "^1.0.1",
+    "replace-in-files-cli": "^2.2.0",
+    "rimraf": "^3.0.0",
     "sass": "^1.71.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.4",

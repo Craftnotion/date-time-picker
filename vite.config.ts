@@ -13,19 +13,19 @@ export default defineConfig((configEnv) => ({
     react(),
     tsConfigPaths(),
     linterPlugin({
-      include: ['./src}/**/*.{ts,tsx}', './styles/**/*.{scss,sass}'],
+      include: ['./src}/**/*.{ts,tsx,d.ts}', './styles/**/*.{scss,sass}'],
       linters: [new EsLinter({ configEnv })],
     }),
     dts({
       include: ['src/', 'styles/'],
+      insertTypesEntry: true,
     }),
   ],
   build: {
     lib: {
       entry: resolve('src', 'index.tsx'),
       name: 'date-time-picker',
-      formats: ['es', 'umd'],
-      fileName: (format) => `date-time-picker.${format}.js`,
+      formats: ['es', 'cjs'],
     },
     assetsDir: "src/assets",
     rollupOptions: {
